@@ -20,12 +20,12 @@ pom_path="/tmp/pomodoro"
 function display () {
 	min=$(expr $s / 60)
 	sek=$(expr $s % 60)
-	if [ $min -lt 10 ]
-	then
-		m=0$min
-	elif [ $min == 0 ]
+	if [ $min -eq 0 ]
 	then
 		min=00
+	elif [ $min -lt 10 ]
+	then
+		min=0$min
 	fi
 	if [ $sek -lt 10 ]
 	then
