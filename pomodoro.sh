@@ -18,8 +18,8 @@ work_command="notify-send -t 2500 'Time to work!'"
 pom_path="/tmp/pomodoro"
 
 function display () {
-	min=$(expr $s / 60)
-	sek=$(expr $s % 60)
+	min=$(($s/60))
+	sek=$(($s%60))
 	if [ $min -eq 0 ]
 	then
 		min=00
@@ -54,7 +54,7 @@ then
 		b) dur=$break_time;;
 	esac 
 	now=$(date +%s)
-	s=$(expr $dur - $now + $p)
+	s=$(($dur-$now+$p))
 	if [ $s -le 0 ] # if time less than 0 then switch mode
 	then
 		case $t in
