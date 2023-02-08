@@ -18,8 +18,8 @@ work_command="notify-send -t 2500 'Time to work!'"
 pom_path="/tmp/pomodoro"
 
 function display () {
-	min=$(($s/60))
-	sek=$(($s%60))
+	min=$((s/60))
+	sek=$((s%60))
 	if [ $min -eq 0 ]
 	then
 		min=00
@@ -33,19 +33,19 @@ function display () {
 	fi
 	case $2 in
 		w)
-			echo $work_prefix$min:$sek
+			echo "$work_prefix$min:$sek"
 			echo $min:$sek
 			echo $work_color
 		;;
 		b)
-			echo $break_prefix$min:$sek
+			echo "$break_prefix$min:$sek"
 			echo $min:$sek
 			echo $break_color
 		;;
 	esac
 }
 
-if [ -f $pom_path ] && [ $(wc -l $pom_path | awk '{print $1}') -eq 2 ]
+if [ -f "$pom_path" ] && [ "$(wc -l $pom_path | awk '{print $1}')" -eq 2 ]
 then
 	p=$(sed '1 d' $pom_path) # time
 	t=$(sed '2 d' $pom_path) # mode
@@ -54,26 +54,26 @@ then
 		b) dur=$break_time;;
 	esac 
 	now=$(date +%s)
-	s=$(($dur-$now+$p))
+	s=$((dur-now+p))
 	if [ $s -le 0 ] # if time less than 0 then switch mode
 	then
 		case $t in
 			w)
 				echo b > $pom_path
-				eval $break_command
+				eval "$break_command"
 			;;
 			b)
 				echo w > $pom_path
-				eval $work_command
+				eval "$work_command"
 			;;
 		esac
-		echo $now >> $pom_path
+		echo "$now" >> $pom_path
 	fi
-	display $s $t
+	display "$s" "$t"
 else
-	echo $msg_start
-	echo $msg_start
-	echo $start_color
+	echo "$msg_start"
+	echo "$msg_start"
+	echo "$start_color"
 fi
 
 case $BLOCK_BUTTON in
